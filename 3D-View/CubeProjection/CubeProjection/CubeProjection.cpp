@@ -126,7 +126,7 @@ void Reshape(int w, int h)
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-4, 4, -4, 4, -10, 10);
+	glOrtho(-5, 5, -5, 5, -10, 10);
 }
 
 void keyboard(unsigned char key, int x, int y)
