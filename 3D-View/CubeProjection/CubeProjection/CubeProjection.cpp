@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(600, 600);
-	glutCreateWindow("Hello World!");
+	glutCreateWindow("Hello Cube");
 
 	glutDisplayFunc(myDisplay);
 	glutReshapeFunc(Reshape);
