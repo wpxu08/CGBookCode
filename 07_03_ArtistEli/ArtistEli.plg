@@ -1,0 +1,45 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ArtistEli - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\wyx\LOCALS~1\Temp\RSP2B7.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/ArtistEli.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\wyx\LOCALS~1\Temp\RSP2B7.tmp" 
+Creating temporary file "C:\DOCUME~1\wyx\LOCALS~1\Temp\RSP2B8.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/ArtistEli.pdb" /debug /machine:I386 /out:"Debug/ArtistEli.exe" /pdbtype:sept 
+".\Debug\ArtistEli.obj"
+".\Debug\ArtistEliDoc.obj"
+".\Debug\ArtistEliView.obj"
+".\Debug\MainFrm.obj"
+".\Debug\StdAfx.obj"
+".\Debug\ArtistEli.res"
+]
+Creating command line "link.exe @C:\DOCUME~1\wyx\LOCALS~1\Temp\RSP2B8.tmp"
+<h3>Output Window</h3>
+Compiling...
+ArtistEliView.cpp
+E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp(157) : warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp(171) : warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp(174) : warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp(204) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+E:\计算机图形学实验教程\ArtistEli\ArtistEliView.cpp(204) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+Linking...
+Creating command line "bscmake.exe /nologo /o"Debug/ArtistEli.bsc"  ".\Debug\StdAfx.sbr" ".\Debug\ArtistEli.sbr" ".\Debug\ArtistEliDoc.sbr" ".\Debug\ArtistEliView.sbr" ".\Debug\MainFrm.sbr""
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+ArtistEli.exe - 0 error(s), 5 warning(s)
+</pre>
+</body>
+</html>
