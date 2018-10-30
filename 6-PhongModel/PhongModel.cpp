@@ -13,10 +13,10 @@ struct Color
 	float Ir, Ig, Ib;
 };
 
-float KaIa;//»·¾³¹âÇ¿¶È
+float KaIa;//ç¯å¢ƒå…‰å¼ºåº¦
 float Kd, n;
 Vector H,light;
-Color mLight, mColor;//mLight±íÊ¾Âş·´Éä¹âÓë¾µÃæ·´Éä¹âÇ¿¶È
+Color mLight, mColor;//mLightè¡¨ç¤ºæ¼«åå°„å…‰ä¸é•œé¢åå°„å…‰å¼ºåº¦
 GLboolean bLight = false;
 
 void CirclePt(int x0, int y0, int x, int y, Color mColor)
@@ -35,7 +35,7 @@ void CirclePt(int x0, int y0, int x, int y, Color mColor)
 	glEnd();
 }
 
-//ÖĞµãÔ²Éú³ÉËã·¨
+//ä¸­ç‚¹åœ†ç”Ÿæˆç®—æ³•
 void MidCircle(int x0, int y0, int r, Color mColor)
 {
 	int x,y,deltax,deltay,d;
@@ -68,7 +68,7 @@ void MidCircle(int x0, int y0, int r, Color mColor)
 	}
 }
 
-//Ìî³äÔ²ÓòÎªÔ²±ı
+//å¡«å……åœ†åŸŸä¸ºåœ†é¥¼
 void FlatCircle(int x0, int y0, int r, Color mColor)
 {
 	int x,y,deltax,deltay,d;
@@ -86,7 +86,7 @@ void FlatCircle(int x0, int y0, int r, Color mColor)
 			glVertex2i (i+x0,y+y0);
 			glVertex2i (i+x0,-y+y0);
 		}
-		for(i=-y;i<=y;i++)
+		for(int i=-y;i<=y;i++)
 		{
 			glVertex2i (i+x0,x+y0);
 			glVertex2i (i+x0,-x+y0);
@@ -110,12 +110,12 @@ void FlatCircle(int x0, int y0, int r, Color mColor)
 				y--;
 			}
 
-			for(i=-x;i<=x;i++)
+			for(int i=-x;i<=x;i++)
 			{
 				glVertex2i (i+x0,y+y0);
 				glVertex2i (i+x0,-y+y0);
 			}
-			for(i=-y;i<=y;i++)
+			for(int i=-y;i<=y;i++)
 			{
 				glVertex2i (i+x0,x+y0);
 				glVertex2i (i+x0,-x+y0);
@@ -125,7 +125,7 @@ void FlatCircle(int x0, int y0, int r, Color mColor)
 	glEnd();
 }
 
-//³õÊ¼»¯Éè¶¨
+//åˆå§‹åŒ–è®¾å®š
 void Init()
 {
 	float mo;
@@ -151,7 +151,7 @@ void Init()
 	glShadeModel(GL_SMOOTH);
 }
 
-//¸ù¾İPhongÄ£ĞÍ¼ÆËã¹âÇ¿
+//æ ¹æ®Phongæ¨¡å‹è®¡ç®—å…‰å¼º
 Color Phong(int x0, int y0, int r, int x, int y)
 {
 	Vector N;
@@ -173,7 +173,7 @@ Color Phong(int x0, int y0, int r, int x, int y)
 	return mColor;
 }
 
-//¸ù¾İ¼ÆËãµÄ¹âÇ¿°´ÇòÌåµÄ½á¹û×ÅÉ«
+//æ ¹æ®è®¡ç®—çš„å…‰å¼ºæŒ‰çƒä½“çš„ç»“æœç€è‰²
 void Sphere(int x0, int y0, int r)
 {
 	int x,y,deltax,deltay,d;
@@ -191,7 +191,7 @@ void Sphere(int x0, int y0, int r)
 			glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,y+y0);
 			glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,-y+y0);
 		}
-		for(i=-y;i<=y;i++)
+		for(int i=-y;i<=y;i++)
 		{
 			mColor=Phong(x0,y0,r,i+x0,x+y0);
 			glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,x+y0);
@@ -216,13 +216,13 @@ void Sphere(int x0, int y0, int r)
 				y--;
 			}
 
-			for(i=-x;i<=x;i++)
+			for(int i=-x;i<=x;i++)
 			{
 				mColor=Phong(x0,y0,r,i+x0,y+y0);
 				glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,y+y0);
 				glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,-y+y0);
 			}
-			for(i=-y;i<=y;i++)
+			for(int i=-y;i<=y;i++)
 			{
 				mColor=Phong(x0,y0,r,i+x0,x+y0);
 				glColor3ub (mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i (i+x0,x+y0);
@@ -239,9 +239,9 @@ void myDisplay()
 	glColor3f (1.0f, 1.0f, 1.0f); 
 	Color clr;
 	clr.Ir = 180, clr.Ig = 180, clr.Ib = 180;
-	MidCircle(80, 240, 70, clr);
-	FlatCircle(280, 240, 70, clr);
-	Sphere(540, 240, 70);
+	MidCircle(100, 200, 50, clr);
+	FlatCircle(250, 200, 50, clr);
+	Sphere(400, 200, 50);
 
 	glFlush();
 }
@@ -259,8 +259,8 @@ int main(int argc, char *argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(640, 480);
-	glutCreateWindow("Hello World!");
+	glutInitWindowSize(500, 400);
+	glutCreateWindow("Hello Light!");
 
 	Init();
 	glutDisplayFunc(myDisplay);

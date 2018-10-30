@@ -1,83 +1,141 @@
-#include <gl/glut.h>
+#include <GL/glut.h>
 
-//不显示控制台窗口
-#pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#include <stdlib.h>
 
-void display()
+static int year = 0, day = 0;
+
+void init(void)
+
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0, 0.0, 0.0);
-	//画分割线，分成四个视见区
-	glViewport(0, 0, 400, 400);
-	glBegin(GL_LINES);
-	glVertex2f(-1.0, 0);
-	glVertex2f(1.0, 0);
-	glVertex2f(0.0, -1.0);
-	glVertex2f(0.0, 1.0);
-	glEnd();
 
-	//定义在左下角的区域
-	glColor3f(0.0, 1.0, 0.0);
-	glViewport(0, 0, 200, 200);
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5, -0.5);
-	glVertex2f(-0.5, 0.5);
-	glVertex2f(0.5, 0.5);
-	glVertex2f(0.5, -0.5);
-	glEnd();
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 
+	glShadeModel(GL_SMOOTH);
 
-	//定义在右上角的区域
-	glColor3f(0.0, 0.0, 1.0);
-	glViewport(200, 200, 200, 200);//注意，后面这两个参数是高度和宽度，而不是坐标
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5, -0.5);
-	glVertex2f(-0.5, 0.5);
-	glVertex2f(0.5, 0.5);
-	glVertex2f(0.5, -0.5);
-	glEnd();
-
-	//定义在左上角的区域
-	glColor3f(1.0, 0.0, 0.0);
-	glViewport(0, 200, 200, 200);//注意，后面这两个参数是高度和宽度，而不是坐标
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5, -0.5);
-	glVertex2f(-0.5, 0.5);
-	glVertex2f(0.5, 0.5);
-	glVertex2f(0.5, -0.5);
-	glEnd();
-
-	//定义在右下角
-	glColor3f(1.0, 1.0, 1.0);
-	glViewport(200, 0, 200, 200);//注意，后面这两个参数是高度和宽度，而不是坐标
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5, -0.5);
-	glVertex2f(-0.5, 0.5);
-	glVertex2f(0.5, 0.5);
-	glVertex2f(0.5, -0.5);
-	glEnd();
-	glFlush();
 }
 
-void init()
+void display(void)
+
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	glColor3f(1.0, 1.0, 1.0);
+
+	glPushMatrix();
+
+	glutWireSphere(1.0, 20, 16); /* draw sun */
+
+	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
+
+	glTranslatef(2.0, 0.0, 0.0);
+
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+
+	glutWireSphere(0.2, 10, 8); /* draw smaller planet */
+
+	glPopMatrix();
+
+	glutSwapBuffers();
+
+}
+
+void reshape(int w, int h)
+
+{
+
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 
 	glMatrixMode(GL_PROJECTION);
+
 	glLoadIdentity();
-	//定义剪裁面
-	gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+
+	gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0);
+
+	glMatrixMode(GL_MODELVIEW);
+
+	glLoadIdentity();
+
+	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
 }
 
-int main(int argc, char ** argv)
+void keyboard(unsigned char key, int x, int y)
+
 {
+
+	switch (key) {
+
+	case 'd':
+
+		day = (day + 10) % 360;
+
+		glutPostRedisplay();
+
+		break;
+
+	case 'D':
+
+		day = (day - 10) % 360;
+
+		glutPostRedisplay();
+
+		break;
+
+	case 'y':
+
+		year = (year + 5) % 360;
+
+		glutPostRedisplay();
+
+		break;
+
+	case 'Y':
+
+		year = (year - 5) % 360;
+
+		glutPostRedisplay();
+
+		break;
+
+	case 27:
+
+		exit(0);
+
+		break;
+
+	default:
+
+		break;
+
+	}
+
+}
+
+int main(int argc, char** argv)
+
+{
+
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+
+	glutInitWindowSize(500, 500);
+
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(400, 400);
-	glutCreateWindow("蒋昌松_使用glbegin_glend_glViewport");
-	glutDisplayFunc(display);
+
+	glutCreateWindow(argv[0]);
+
 	init();
+
+	glutDisplayFunc(display);
+
+	glutReshapeFunc(reshape);
+
+	glutKeyboardFunc(keyboard);
+
 	glutMainLoop();
+
+	return 0;
+
 }
