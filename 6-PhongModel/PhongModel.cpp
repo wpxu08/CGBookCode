@@ -151,7 +151,7 @@ void Init()
 	glShadeModel(GL_SMOOTH);
 }
 
-//根据Phong模型计算光强
+//根据Phong模型计算球面光强
 Color Phong(int x0, int y0, int r, int x, int y)
 {
 	Vector N;
@@ -173,7 +173,30 @@ Color Phong(int x0, int y0, int r, int x, int y)
 	return mColor;
 }
 
-//根据计算的光强按球体的结果着色
+//根据Phong模型计算圆锥面光强
+Color PhongCone(int x0, int y0, int r, int x, int y)
+{
+	Vector N;
+	float z, alpha, theta, Ks;
+	Ks = 1.0 - Kd;
+	z = r - sqrt((float)((x - x0)*(x - x0) + (y - y0)*(y - y0)));
+	float val = sqrt((float)(2*(r - z)*(r - z) ));
+	N.fx = (x - x0)*1.0 / val;
+	N.fy = (y - y0)*1.0 / val;
+	N.fz = (r - z) * 1.0 / val;
+	theta = N.fx * light.fx + N.fy * light.fy + N.fz * light.fz;
+	if (theta < 0)
+		theta = 0;
+	alpha = H.fx*N.fx + H.fy*N.fy + H.fx*N.fz;
+	if (alpha < 0)
+		alpha = 0;
+	mColor.Ir = KaIa + mLight.Ir*Kd*theta + mLight.Ir*Ks*pow(alpha, n);
+	mColor.Ig = KaIa + mLight.Ig*Kd*theta + mLight.Ig*Ks*pow(alpha, n);
+	mColor.Ib = KaIa + mLight.Ib*Kd*theta + mLight.Ib*Ks*pow(alpha, n);
+	return mColor;
+}
+
+//根据计算的光强按球面的结果着色
 void Sphere(int x0, int y0, int r)
 {
 	int x,y,deltax,deltay,d;
@@ -233,6 +256,66 @@ void Sphere(int x0, int y0, int r)
 	glEnd();
 }
 
+//根据计算的光强按圆锥面的结果着色
+void Cone(int x0, int y0, int r)
+{
+	int x, y, deltax, deltay, d;
+	x = 0;
+	y = r;
+	deltax = 3;
+	deltay = 5 - r - r;
+	d = 1 - r;
+
+	glBegin(GL_POINTS);
+	{
+		for (int i = -x; i <= x; i++)
+		{
+			mColor = PhongCone(x0, y0, r, i + x0, y + y0);
+			glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, y + y0);
+			glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, -y + y0);
+		}
+		for (int i = -y; i <= y; i++)
+		{
+			mColor = PhongCone(x0, y0, r, i + x0, x + y0);
+			glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, x + y0);
+			glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, -x + y0);
+		}
+
+		while (x < y)
+		{
+			if (d < 0)
+			{
+				d += deltax;
+				deltax += 2;
+				deltay += 2;
+				x++;
+			}
+			else
+			{
+				d += deltay;
+				deltax += 2;
+				deltay += 4;
+				x++;
+				y--;
+			}
+
+			for (int i = -x; i <= x; i++)
+			{
+				mColor = PhongCone(x0, y0, r, i + x0, y + y0);
+				glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, y + y0);
+				glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, -y + y0);
+			}
+			for (int i = -y; i <= y; i++)
+			{
+				mColor = PhongCone(x0, y0, r, i + x0, x + y0);
+				glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, x + y0);
+				glColor3ub(mColor.Ir, mColor.Ig, mColor.Ib);   glVertex2i(i + x0, -x + y0);
+			}
+		}
+	}
+	glEnd();
+}
+
 void myDisplay()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -242,6 +325,7 @@ void myDisplay()
 	MidCircle(100, 200, 50, clr);
 	FlatCircle(250, 200, 50, clr);
 	Sphere(400, 200, 50);
+	Cone(550, 200, 50);
 
 	glFlush();
 }
@@ -259,7 +343,7 @@ int main(int argc, char *argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(500, 400);
+	glutInitWindowSize(700, 400);
 	glutCreateWindow("Hello Light!");
 
 	Init();
